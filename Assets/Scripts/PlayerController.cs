@@ -18,6 +18,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float grabDistance;
     [SerializeField] private LayerMask interactableLayer;
     [SerializeField] private Transform grabbedObject;
+    [SerializeField] private float minDistance = 1f;
+    [SerializeField] private float maxDistance = 20f;
+    [SerializeField] private float scrollSpeed = 5f;
+
+    public float currentDistance = 3f;
+    public float originalDistance;
+    public Vector3 originalScale;
+
+    private Rigidbody grabbedRb;
 
 
     private CharacterController controller;
@@ -114,9 +123,41 @@ public class PlayerController : MonoBehaviour
 
     private void Grab()
     {
+        if (!controls.Player.Grab.triggered)
+            return;
+
+        if (grabbedObject != null)
+        {
+            if (grabbedRb != null)
+            {
+                grabbedRb.isKinematic = false;
+                grabbedRb.useGravity = true;
+            }
+
+            grabbedObject = null;
+            grabbedRb = null;
+
+            return;
+        }
+
         if (ThrowRaycast(out RaycastHit hit))
         {
             grabbedObject = hit.transform;
+
+            currentDistance = Vector3.Distance(playerCamera.transform.position,hit.transform.position);
+            originalDistance = currentDistance;
+            originalScale = grabbedObject.localScale;
+
+            grabbedRb = grabbedObject.GetComponent<Rigidbody>();
+
+            if (grabbedRb != null)
+            {
+                grabbedRb.linearVelocity = Vector3.zero;
+                grabbedRb.angularVelocity = Vector3.zero;
+
+                grabbedRb.useGravity = false;
+                grabbedRb.isKinematic = true;
+            }
         }
     }
 
@@ -124,12 +165,34 @@ public class PlayerController : MonoBehaviour
     {
         if (grabbedObject == null)
             return;
-        float currentDistance = 3f;
-        grabbedObject.position = playerCamera.transform.position + playerCamera.transform.forward * currentDistance;
 
+        Vector2 scroll =
+            controls.Player.Scroll.ReadValue<Vector2>();
+
+        currentDistance +=
+            scroll.y * scrollSpeed * 0.01f;
+
+        currentDistance = Mathf.Clamp(
+            currentDistance,
+            minDistance,
+            maxDistance
+        );
+
+        float scaleFactor =
+            currentDistance / originalDistance;
+
+        grabbedObject.localScale =
+            originalScale * scaleFactor;
+
+        Vector3 targetPosition =
+            playerCamera.transform.position +
+            playerCamera.transform.forward *
+            currentDistance;
+
+        grabbedObject.position = targetPosition;
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (playerCamera == null)
             return;
@@ -139,6 +202,18 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawRay(
             playerCamera.transform.position,
             playerCamera.transform.forward * grabDistance
+        );
+
+        Gizmos.color = Color.green;
+
+        Vector3 targetPosition =
+            playerCamera.transform.position +
+            playerCamera.transform.forward *
+            currentDistance;
+
+        Gizmos.DrawWireSphere(
+            targetPosition,
+            0.2f
         );
     }
 }
