@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 1f125bf8f501c6c4fab845956c74729c, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -1683,11 +1683,29 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a14158953be32e240b92444b157b552a, type: 3}
   m_PrefabInstance: {fileID: 308972996}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &323738415 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4311296802781787388, guid: dd1d6d522db249b42966f45bf5e67a04, type: 3}
+  m_PrefabInstance: {fileID: 1248152327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &323738418 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8225969214388234118, guid: dd1d6d522db249b42966f45bf5e67a04, type: 3}
   m_PrefabInstance: {fileID: 1248152327}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &323738419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323738415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c310c258daa9aa74dbdd2b07f1d11efe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  flashlightObject: {fileID: 2125138640}
 --- !u!1001 &361359031
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6760,7 +6778,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8225969214388234118, guid: dd1d6d522db249b42966f45bf5e67a04, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2125138641}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4311296802781787388, guid: dd1d6d522db249b42966f45bf5e67a04, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 323738419}
   m_SourcePrefab: {fileID: 100100000, guid: dd1d6d522db249b42966f45bf5e67a04, type: 3}
 --- !u!1001 &1252135201
 PrefabInstance:
